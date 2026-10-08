@@ -111,21 +111,53 @@ public class BinaryTree {
      * @return the node containing value, or null if no such node exists
      *         (including when the tree is empty).
      */
-    public Node search(int value) {
-        // TODO
-        throw new UnsupportedOperationException("TODO: BinaryTree.search");
+    // Private algo traversal helper
+    private Node preOrderSearch(Node node, int value) {
+        // Check if the current node is null (empty tree or at child of leaf)
+        if (node == null) {
+            return null;
+        }
+        // If the node holds the value in question, return it 
+        if (node.getElement() == value) {
+            return node;
+        }
+        // If the parent node was not empty and did not hold the value
+        // Recurse down the left child and return the result if not null
+        Node found = preOrderSearch(node.getLeft(), value);
+        if (found != null) {
+            return found;
+        }
+        // If the left side was null, search the right recursively
+        return preOrderSearch(node.getRight(), value);  
     }
+
+    // Encapsulate init at root to search whole tree 
+    // User only needs to enter value to be found
+    public Node search(int value) {
+        return preOrderSearch(root, value);
+    }
+        
+    
 
     /*
      * Exercise 1, Part C — Complexity of search (n = number of nodes)
      *
-     * Best case:
+     * Best case: O(1)
      *
-     * Worst case:
+     * Worst case: O(n)
      *
-     * Input that produces the worst case:
+     * Input that produces the worst case: 
+     * Searching for a node that is stored at the bottom right node of the tree.
      *
-     * Justification:
+     * Justification: 
+     * A preorder algorithm first checks the root, then the entirety of the left
+     * subtree, then the right subtree, recursively. In a small example, if you have
+     * a tree holding n = 3 nodes, where A is the root, B is the left child, and 
+     * C is the right child, and you are searching for C the algorithm will check A,
+     * then B, then C, at which point it will return C after completing 3 (3 = n) O(1)
+     * operations. Best case would be to search for a value in an empty tree or a tree
+     * where the root holds the value in question, in this example, A, because it will
+     * return before recursively calling itself even once. 
      */
 
     // ------------------------------------------------------------------
