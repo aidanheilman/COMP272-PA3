@@ -8,8 +8,8 @@ import java.util.Queue;
  * Do NOT change the provided code, method names, or signatures.
  * You may add private helper methods.
  *
- * Name:
- * Student ID:
+ * Name: Aidan Heilman
+ * Student ID: aheilman 00001675857
  */
 public class BinaryTree {
 
@@ -74,8 +74,33 @@ public class BinaryTree {
      * Duplicate values are allowed in a general binary tree.
      */
     public void add(int value) {
-        // TODO
-        throw new UnsupportedOperationException("TODO: BinaryTree.add");
+        // Create new node obj that holds value as element
+        Node newNode = new Node(value);
+        // If tree is empty, added val becomes root
+        if (root == null) {
+            root = newNode;
+        }
+        // Otherwise tree is not empty, search for open space using queue && insert
+        // Peek first to check condition without removing
+        // Poll second to check/alter condition and remove as one operation
+        else {
+            Queue<Node> queue = new ArrayDeque<>();
+            queue.add(root);
+            while (true) {
+                if (queue.peek().getLeft() == null) {
+                queue.poll().setLeft(newNode);
+                return;
+                }
+                if (queue.peek().getRight() == null) {
+                queue.poll().setRight(newNode);
+                return;
+                }
+                else {
+                queue.add(queue.peek().getLeft());
+                queue.add(queue.poll().getRight());
+                }
+            }
+        }
     }
 
     /**
