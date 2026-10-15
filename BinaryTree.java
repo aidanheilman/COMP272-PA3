@@ -81,23 +81,24 @@ public class BinaryTree {
             root = newNode;
         }
         // Otherwise tree is not empty, search for open space using queue && insert
-        // Peek first to check condition without removing
-        // Poll second to check/alter condition and remove as one operation
+        // Store head of queue in variable 'current'
+        // Check if space on left or right of current, if not enqueue children and repeat
         else {
             Queue<Node> queue = new ArrayDeque<>();
             queue.add(root);
             while (true) {
-                if (queue.peek().getLeft() == null) {
-                queue.poll().setLeft(newNode);
-                return;
+                Node current = queue.poll();
+                if (current.getLeft() == null) {
+                    current.setLeft(newNode);
+                    return;
                 }
-                if (queue.peek().getRight() == null) {
-                queue.poll().setRight(newNode);
-                return;
+                if (current.getRight() == null) {
+                    current.setRight(newNode);
+                    return;
                 }
                 else {
-                queue.add(queue.peek().getLeft());
-                queue.add(queue.poll().getRight());
+                    queue.add(current.getLeft());
+                    queue.add(current.getRight());
                 }
             }
         }
